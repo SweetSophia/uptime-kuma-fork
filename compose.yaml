@@ -6,4 +6,4 @@ services:
       - ./data:/app/data
     ports:
       # <Host Port>:<Container Port>
-      - "3001:3001"
+      - "5401:5401"
