@@ -6,6 +6,7 @@ const { debug } = require("../src/util");
 const { UptimeKumaServer } = require("./uptime-kuma-server");
 const { CookieJar } = require("tough-cookie");
 const { createCookieAgent } = require("http-cookie-agent/http");
+const { PROXY_PASSWORD_MASK } = require("./util-server");
 
 class Proxy {
     static SUPPORTED_PROXY_PROTOCOLS = ["http", "https", "socks", "socks5", "socks5h", "socks4"];
@@ -52,7 +53,7 @@ class Proxy {
         // Only update the password if the user actually provided a new one.
         // The client receives a masked placeholder from toJSON(), so skip
         // overwriting when the incoming value is still that placeholder.
-        if (proxy.password !== "**********") {
+        if (proxy.password !== PROXY_PASSWORD_MASK) {
             bean.password = proxy.password;
         }
 
