@@ -192,7 +192,7 @@ const { EmbeddedMariaDB } = require("./embedded-mariadb");
 const { SetupDatabase } = require("./setup-database");
 const { chartSocketHandler } = require("./socket-handlers/chart-socket-handler");
 
-app.use(express.json());
+app.use(express.json({ limit: "10mb" }));
 
 // Global Middleware
 app.use(function (req, res, next) {
@@ -200,6 +200,7 @@ app.use(function (req, res, next) {
         res.setHeader("X-Frame-Options", "SAMEORIGIN");
     }
     res.removeHeader("X-Powered-By");
+    res.setHeader("X-Content-Type-Options", "nosniff");
     next();
 });
 

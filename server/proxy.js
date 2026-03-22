@@ -48,7 +48,14 @@ class Proxy {
         bean.port = proxy.port;
         bean.auth = proxy.auth;
         bean.username = proxy.username;
-        bean.password = proxy.password;
+
+        // Only update the password if the user actually provided a new one.
+        // The client receives a masked placeholder from toJSON(), so skip
+        // overwriting when the incoming value is still that placeholder.
+        if (proxy.password !== "**********") {
+            bean.password = proxy.password;
+        }
+
         bean.active = proxy.active || true;
         bean.default = proxy.default || false;
 

@@ -14,7 +14,7 @@ class Proxy extends BeanModel {
             port: this._port,
             auth: !!this._auth,
             username: this._username,
-            password: this._password,
+            password: this._password ? "**********" : null,
             active: !!this._active,
             default: !!this._default,
             createdDate: this._created_date,
