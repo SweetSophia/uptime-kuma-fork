@@ -824,6 +824,12 @@ module.exports.rootCertificatesFingerprints = () => {
 module.exports.SHAKE256_LENGTH = 16;
 
 /**
+ * Placeholder used to mask proxy passwords in API responses.
+ * @type {string}
+ */
+module.exports.PROXY_PASSWORD_MASK = "**********";
+
+/**
  * @param {string} data The data to be hashed
  * @param {number} len Output length of the hash
  * @returns {string} The hashed data in hex format

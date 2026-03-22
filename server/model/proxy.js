@@ -1,4 +1,5 @@
 const { BeanModel } = require("redbean-node/dist/bean-model");
+const { PROXY_PASSWORD_MASK } = require("../util-server");
 
 class Proxy extends BeanModel {
     /**
@@ -14,7 +15,7 @@ class Proxy extends BeanModel {
             port: this._port,
             auth: !!this._auth,
             username: this._username,
-            password: this._password,
+            password: this._password ? PROXY_PASSWORD_MASK : null,
             active: !!this._active,
             default: !!this._default,
             createdDate: this._created_date,
