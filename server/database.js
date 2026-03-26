@@ -19,6 +19,21 @@ const SqlString = require("sqlstring");
  */
 class Database {
     /**
+     * Create an app-owned directory and tighten its permissions on POSIX systems.
+     * @param {string} dirPath Directory path to create
+     * @returns {void}
+     */
+    static ensurePrivateDir(dirPath) {
+        if (!fs.existsSync(dirPath)) {
+            fs.mkdirSync(dirPath, { recursive: true });
+        }
+
+        if (process.platform !== "win32") {
+            fs.chmodSync(dirPath, 0o700);
+        }
+    }
+
+    /**
      * Bootstrap database for SQLite
      * @type {string}
      */
@@ -137,26 +152,17 @@ class Database {
         Database.dataDir = process.env.DATA_DIR || args["data-dir"] || "./data/";
 
         Database.sqlitePath = path.join(Database.dataDir, "kuma.db");
-        if (!fs.existsSync(Database.dataDir)) {
-            fs.mkdirSync(Database.dataDir, { recursive: true });
-        }
+        Database.ensurePrivateDir(Database.dataDir);
 
         Database.uploadDir = path.join(Database.dataDir, "upload/");
-
-        if (!fs.existsSync(Database.uploadDir)) {
-            fs.mkdirSync(Database.uploadDir, { recursive: true });
-        }
+        Database.ensurePrivateDir(Database.uploadDir);
 
         // Create screenshot dir
         Database.screenshotDir = path.join(Database.dataDir, "screenshots/");
-        if (!fs.existsSync(Database.screenshotDir)) {
-            fs.mkdirSync(Database.screenshotDir, { recursive: true });
-        }
+        Database.ensurePrivateDir(Database.screenshotDir);
 
         Database.dockerTLSDir = path.join(Database.dataDir, "docker-tls/");
-        if (!fs.existsSync(Database.dockerTLSDir)) {
-            fs.mkdirSync(Database.dockerTLSDir, { recursive: true });
-        }
+        Database.ensurePrivateDir(Database.dockerTLSDir);
 
         log.info("server", `Data Dir: ${Database.dataDir}`);
     }
